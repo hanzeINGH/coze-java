@@ -13,9 +13,8 @@ After the creation is completed, the client ID, client secret, and redirect link
 obtained. For the client secret, users need to keep it securely to avoid leakage.
 
 * */
-import com.coze.openapi.client.auth.GetAccessTokenResp;
+import com.coze.openapi.client.auth.OAuthToken;
 import com.coze.openapi.service.auth.TokenAuth;
-import com.coze.openapi.service.auth.WebOAuth;
 import com.coze.openapi.service.auth.WebOAuthClient;
 import com.coze.openapi.service.config.Consts;
 import com.coze.openapi.service.service.CozeAPI;
@@ -41,7 +40,7 @@ public class WebOAuthExample {
          The sdk offers the WebOAuthClient class to establish an authorization for Web OAuth.
          Firstly, it is required to initialize the WebOAuthApp with the client ID and client secret.
         */
-        WebOAuthClient oauth = new WebOAuthClient(clientSecret, clientID, cozeAPIBase);
+        WebOAuthClient oauth = new WebOAuthClient(clientID, clientSecret, cozeAPIBase);
 
         // Generate the authorization link and direct the user to open it.
         String oauthURL = oauth.getOAuthURL(redirectURI, null);
@@ -66,15 +65,12 @@ public class WebOAuthExample {
         After obtaining the code after redirection, the interface to exchange the code for a
         token can be invoked to generate the coze access_token of the authorized user.
         * */
-        GetAccessTokenResp resp = oauth.getAccessToken(code, redirectURI);
+        OAuthToken resp = oauth.getAccessToken(code, redirectURI);
         System.out.println(resp);
 
         // use the access token to init Coze client
         CozeAPI coze = new CozeAPI(new TokenAuth(resp.getAccessToken()), cozeAPIBase);
         // When the token expires, you can also refresh and re-obtain the token
-        resp = oauth.refreshToken(resp.getRefreshToken(), redirectURI);
-
-        // you can also use WebOAuthClient to init CozeAPI, it will automatically refresh access token when it expires
-        coze = new CozeAPI(new WebOAuth(oauth, resp.getRefreshToken(), redirectURI), cozeAPIBase);
+        resp = oauth.refreshToken(resp.getRefreshToken());
     }
 } 
