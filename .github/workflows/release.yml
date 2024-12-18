@@ -1,8 +1,8 @@
 name: Release
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      - test_release
 
 jobs:
   release:
