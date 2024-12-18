@@ -14,7 +14,7 @@ import com.coze.openapi.service.service.CozeAPI;
 import io.reactivex.Flowable;
 
 /*
-This example describes how to use the workflow interface to stream chat.
+This example describes how to use the workflow interface to stream chat by api.
 */
 public class StreamWorkflowExample {
 
