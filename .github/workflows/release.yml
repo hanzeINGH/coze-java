@@ -14,10 +14,10 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
           server-id: 'central'
-          server-username: OSSRH_USERNAME
-          server-password: OSSRH_PASSWORD
+          server-username: ${{ secrets.OSSRH_USERNAME }}
+          server-password: ${{ secrets.OSSRH_TOKEN }}
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrase: SIGN_KEY_PASS
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
           cache: 'maven'
       
       - name: Build and Release
